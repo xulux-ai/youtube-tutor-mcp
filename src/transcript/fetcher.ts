@@ -13,7 +13,8 @@ export type RunYtDlp = (
   opts: { cwd: string },
 ) => Promise<{ stdout: string; stderr: string; code: number }>;
 
-async function defaultRunYtDlp(
+/** Exported for focused unit tests of spawn/ENOENT handling. */
+export async function defaultRunYtDlp(
   args: string[],
   opts: { cwd: string },
 ): Promise<{ stdout: string; stderr: string; code: number }> {
@@ -25,28 +26,40 @@ async function defaultRunYtDlp(
 
     let stdout = "";
     let stderr = "";
+    let settled = false;
 
-    child.stdout.on("data", (chunk: Buffer | string) => {
+    const settle = (fn: () => void) => {
+      if (settled) return;
+      settled = true;
+      fn();
+    };
+
+    // stdio can be null on ENOENT (binary missing) — never attach without a null-check
+    child.stdout?.on("data", (chunk: Buffer | string) => {
       stdout += String(chunk);
     });
-    child.stderr.on("data", (chunk: Buffer | string) => {
+    child.stderr?.on("data", (chunk: Buffer | string) => {
       stderr += String(chunk);
     });
 
     child.on("error", (err: NodeJS.ErrnoException) => {
-      if (err.code === "ENOENT") {
-        reject(
-          new Error(
-            "yt-dlp is not installed. Install yt-dlp and ensure it is on PATH (https://github.com/yt-dlp/yt-dlp).",
-          ),
-        );
-        return;
-      }
-      reject(err);
+      settle(() => {
+        if (err.code === "ENOENT") {
+          reject(
+            new Error(
+              "yt-dlp is not installed. Install yt-dlp and ensure it is on PATH (https://github.com/yt-dlp/yt-dlp).",
+            ),
+          );
+          return;
+        }
+        reject(err);
+      });
     });
 
     child.on("close", (code) => {
-      resolve({ stdout, stderr, code: code ?? 1 });
+      settle(() => {
+        resolve({ stdout, stderr, code: code ?? 1 });
+      });
     });
   });
 }

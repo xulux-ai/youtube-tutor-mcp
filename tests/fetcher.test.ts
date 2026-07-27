@@ -27,7 +27,9 @@ describe("fetchAndCacheTranscript", () => {
     );
     const vtt = await fs.readFile(fixturePath, "utf8");
 
-    const runYtDlp: RunYtDlp = async () => {
+    let capturedArgs: string[] | undefined;
+    const runYtDlp: RunYtDlp = async (args) => {
+      capturedArgs = args;
       await fs.writeFile(path.join(workDir, "dQw4w9WgXcQ.en.vtt"), vtt, "utf8");
       return {
         stdout: "Sample Title\nSample Channel\n212\n",
@@ -43,6 +45,7 @@ describe("fetchAndCacheTranscript", () => {
       runYtDlp,
     });
 
+    expect(capturedArgs).toContain("--skip-download");
     expect(first.fromCache).toBe(false);
     expect(first.doc.segments.length).toBeGreaterThan(0);
     expect(first.doc.source).toBe("youtube-captions");
@@ -78,5 +81,22 @@ describe("fetchAndCacheTranscript", () => {
         runYtDlp,
       }),
     ).rejects.toThrow(/No captions/);
+  });
+
+  it("surfaces yt-dlp install guidance when runner rejects with ENOENT message", async () => {
+    const runYtDlp: RunYtDlp = async () => {
+      throw new Error(
+        "yt-dlp is not installed. Install yt-dlp and ensure it is on PATH (https://github.com/yt-dlp/yt-dlp).",
+      );
+    };
+
+    await expect(
+      fetchAndCacheTranscript({
+        input: "dQw4w9WgXcQ",
+        cacheRoot,
+        workDir,
+        runYtDlp,
+      }),
+    ).rejects.toThrow(/yt-dlp is not installed/);
   });
 });
