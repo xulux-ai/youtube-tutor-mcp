@@ -1,0 +1,26 @@
+{
+  "name": "youtube-tutor-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "mcp-use dev",
+    "build": "mcp-use build",
+    "start": "mcp-use start",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:live": "cross-env LIVE_YOUTUBE=1 vitest run tests/fetcher.live.test.ts",
+    "live-check": "tsx scripts/live-transcript-check.ts"
+  },
+  "dependencies": {
+    "mcp-use": "latest",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "cross-env": "^7.0.3",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}
