@@ -31,8 +31,17 @@ describe("fetchAndCacheTranscript", () => {
     const runYtDlp: RunYtDlp = async (args) => {
       capturedArgs = args;
       await fs.writeFile(path.join(workDir, "dQw4w9WgXcQ.en.vtt"), vtt, "utf8");
+      await fs.writeFile(
+        path.join(workDir, "dQw4w9WgXcQ.info.json"),
+        JSON.stringify({
+          title: "Sample Title",
+          channel: "Sample Channel",
+          duration: 212,
+        }),
+        "utf8",
+      );
       return {
-        stdout: "Sample Title\nSample Channel\n212\n",
+        stdout: "",
         stderr: "",
         code: 0,
       };
@@ -46,6 +55,8 @@ describe("fetchAndCacheTranscript", () => {
     });
 
     expect(capturedArgs).toContain("--skip-download");
+    expect(capturedArgs).toContain("--write-info-json");
+    expect(capturedArgs).not.toContain("--print");
     expect(first.fromCache).toBe(false);
     expect(first.doc.segments.length).toBeGreaterThan(0);
     expect(first.doc.source).toBe("youtube-captions");

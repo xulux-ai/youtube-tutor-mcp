@@ -64,18 +64,75 @@ export async function defaultRunYtDlp(
   });
 }
 
-async function findVttFile(dir: string): Promise<string | null> {
+async function collectVttFiles(dir: string): Promise<string[]> {
+  const found: string[] = [];
   const entries = await fs.readdir(dir, { withFileTypes: true });
   for (const entry of entries) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      const nested = await findVttFile(full);
-      if (nested) return nested;
+      found.push(...(await collectVttFiles(full)));
     } else if (entry.name.toLowerCase().endsWith(".vtt")) {
-      return full;
+      found.push(full);
     }
   }
-  return null;
+  return found;
+}
+
+/** Prefer exact `.<lang>.vtt` over `.<lang>-orig.vtt` / other variants. */
+async function findVttFile(
+  dir: string,
+  language: string,
+): Promise<string | null> {
+  const files = await collectVttFiles(dir);
+  if (files.length === 0) return null;
+  const lowerLang = language.toLowerCase();
+  const exact = files.find((f) =>
+    path.basename(f).toLowerCase().endsWith(`.${lowerLang}.vtt`),
+  );
+  if (exact) return exact;
+  return files[0] ?? null;
+}
+
+async function readInfoJson(
+  dir: string,
+  videoId: string,
+): Promise<{ title?: string; channel?: string; durationSec?: number }> {
+  const preferred = path.join(dir, `${videoId}.info.json`);
+  const candidates = [preferred];
+  try {
+    const entries = await fs.readdir(dir);
+    for (const name of entries) {
+      if (name.endsWith(".info.json")) {
+        candidates.push(path.join(dir, name));
+      }
+    }
+  } catch {
+    // ignore
+  }
+
+  for (const candidate of candidates) {
+    try {
+      const raw = await fs.readFile(candidate, "utf8");
+      const data = JSON.parse(raw) as {
+        title?: string;
+        channel?: string;
+        uploader?: string;
+        duration?: number;
+      };
+      const durationSec =
+        typeof data.duration === "number" && Number.isFinite(data.duration)
+          ? data.duration
+          : undefined;
+      return {
+        title: data.title,
+        channel: data.channel ?? data.uploader,
+        durationSec,
+      };
+    } catch {
+      // try next
+    }
+  }
+  return {};
 }
 
 function buildYoutubeUrl(videoId: string): string {
@@ -116,6 +173,8 @@ export async function fetchAndCacheTranscript(opts: {
 
   try {
     const outputTemplate = path.join(workDir, videoId);
+    // Note: do NOT use --print here — in current yt-dlp it implies simulate
+    // and skips writing subtitle files.
     const args = [
       "--skip-download",
       "--write-subs",
@@ -124,12 +183,7 @@ export async function fetchAndCacheTranscript(opts: {
       `${language}.*`,
       "--sub-format",
       "vtt",
-      "--print",
-      "%(title)s",
-      "--print",
-      "%(channel)s",
-      "--print",
-      "%(duration)s",
+      "--write-info-json",
       "-o",
       outputTemplate,
       buildYoutubeUrl(videoId),
@@ -146,7 +200,7 @@ export async function fetchAndCacheTranscript(opts: {
       );
     }
 
-    const vttPath = await findVttFile(workDir);
+    const vttPath = await findVttFile(workDir, language);
     if (!vttPath) {
       throw new Error(`No captions available for ${videoId}`);
     }
@@ -157,14 +211,10 @@ export async function fetchAndCacheTranscript(opts: {
       throw new Error(`No captions available for ${videoId}`);
     }
 
-    const metaLines = result.stdout
-      .split(/\r?\n/)
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0);
-    const title = metaLines[0] ?? videoId;
-    const channel = metaLines[1] ?? "";
-    const durationRaw = metaLines[2];
-    const durationSec = durationRaw != null ? Number(durationRaw) : undefined;
+    const meta = await readInfoJson(workDir, videoId);
+    const title = meta.title?.trim() || videoId;
+    const channel = meta.channel?.trim() || "";
+    const durationSec = meta.durationSec;
 
     const doc: TranscriptDoc = {
       videoId,
@@ -173,7 +223,9 @@ export async function fetchAndCacheTranscript(opts: {
       source: "youtube-captions",
       language,
       fetchedAt: new Date().toISOString(),
-      ...(Number.isFinite(durationSec) ? { durationSec } : {}),
+      ...(durationSec != null && Number.isFinite(durationSec)
+        ? { durationSec }
+        : {}),
       segments,
     };
 

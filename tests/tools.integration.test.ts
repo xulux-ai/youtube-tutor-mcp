@@ -41,8 +41,17 @@ describe("tool handlers (integration)", () => {
         vtt,
         "utf8",
       );
+      await fs.writeFile(
+        path.join(opts.cwd, `${VIDEO_ID}.info.json`),
+        JSON.stringify({
+          title: "Sample Title",
+          channel: "Sample Channel",
+          duration: 212,
+        }),
+        "utf8",
+      );
       return {
-        stdout: "Sample Title\nSample Channel\n212\n",
+        stdout: "",
         stderr: "",
         code: 0,
       };
