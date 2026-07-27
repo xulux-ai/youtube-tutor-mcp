@@ -5,8 +5,22 @@
   "source": "youtube-captions",
   "language": "en",
   "fetchedAt": "2026-07-26T00:00:00.000Z",
+  "durationSec": 1205,
   "segments": [
-    { "start": 0, "duration": 2, "text": "hello" },
-    { "start": 2, "duration": 3, "text": "world" }
+    {
+      "start": 1,
+      "duration": 3,
+      "text": "Hello and welcome to the lecture"
+    },
+    {
+      "start": 750,
+      "duration": 5,
+      "text": "Attention is all you need in transformers"
+    },
+    {
+      "start": 1200,
+      "duration": 5,
+      "text": "Backpropagation updates the weights"
+    }
   ]
 }

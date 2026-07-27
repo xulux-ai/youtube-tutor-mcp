@@ -9,8 +9,10 @@
     "start": "mcp-use start",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:mcp-suite": "vitest run tests/mcp-suite",
     "test:live": "cross-env LIVE_YOUTUBE=1 vitest run tests/fetcher.live.test.ts",
-    "live-check": "tsx scripts/live-transcript-check.ts"
+    "live-check": "tsx scripts/live-transcript-check.ts",
+    "tutor-smoke": "tsx scripts/tutor-smoke.ts"
   },
   "dependencies": {
     "mcp-use": "latest",

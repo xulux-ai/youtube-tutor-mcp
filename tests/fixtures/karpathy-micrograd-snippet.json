@@ -1,0 +1,512 @@
+{
+  "videoId": "VMj-3S1tku0",
+  "title": "The spelled-out intro to neural networks and backpropagation: building micrograd",
+  "channel": "Andrej Karpathy",
+  "source": "youtube-captions",
+  "language": "en",
+  "fetchedAt": "2026-07-27T01:55:59.616Z",
+  "durationSec": 8752,
+  "segments": [
+    {
+      "start": 1.829,
+      "duration": 0.010000000000000009,
+      "text": "hello my name is andre"
+    },
+    {
+      "start": 1.839,
+      "duration": 1.1110000000000002,
+      "text": "hello my name is andre and i've been training deep neural"
+    },
+    {
+      "start": 2.95,
+      "duration": 0.009999999999999787,
+      "text": "and i've been training deep neural"
+    },
+    {
+      "start": 2.96,
+      "duration": 1.9100000000000001,
+      "text": "and i've been training deep neural networks for a bit more than a decade"
+    },
+    {
+      "start": 4.87,
+      "duration": 0.009999999999999787,
+      "text": "networks for a bit more than a decade"
+    },
+    {
+      "start": 4.88,
+      "duration": 1.9089999999999998,
+      "text": "networks for a bit more than a decade and in this lecture i'd like to show you"
+    },
+    {
+      "start": 6.789,
+      "duration": 0.010000000000000675,
+      "text": "and in this lecture i'd like to show you"
+    },
+    {
+      "start": 6.799,
+      "duration": 1.8299999999999992,
+      "text": "and in this lecture i'd like to show you what neural network training looks like"
+    },
+    {
+      "start": 8.629,
+      "duration": 0.009999999999999787,
+      "text": "what neural network training looks like"
+    },
+    {
+      "start": 8.639,
+      "duration": 2.231,
+      "text": "what neural network training looks like under the hood so in particular we are"
+    },
+    {
+      "start": 10.87,
+      "duration": 0.010000000000001563,
+      "text": "under the hood so in particular we are"
+    },
+    {
+      "start": 10.88,
+      "duration": 1.3499999999999996,
+      "text": "under the hood so in particular we are going to start with a blank jupiter"
+    },
+    {
+      "start": 12.23,
+      "duration": 0.009999999999999787,
+      "text": "going to start with a blank jupiter"
+    },
+    {
+      "start": 12.24,
+      "duration": 2.0700000000000003,
+      "text": "going to start with a blank jupiter notebook and by the end of this lecture"
+    },
+    {
+      "start": 14.31,
+      "duration": 0.009999999999999787,
+      "text": "notebook and by the end of this lecture"
+    },
+    {
+      "start": 14.32,
+      "duration": 2.3099999999999987,
+      "text": "notebook and by the end of this lecture we will define and train in neural net"
+    },
+    {
+      "start": 16.63,
+      "duration": 0.010000000000001563,
+      "text": "we will define and train in neural net"
+    },
+    {
+      "start": 16.64,
+      "duration": 1.509999999999998,
+      "text": "we will define and train in neural net and you'll get to see everything that"
+    },
+    {
+      "start": 18.15,
+      "duration": 0.010000000000001563,
+      "text": "and you'll get to see everything that"
+    },
+    {
+      "start": 18.16,
+      "duration": 2.0700000000000003,
+      "text": "and you'll get to see everything that goes on under the hood and exactly"
+    },
+    {
+      "start": 20.23,
+      "duration": 0.00999999999999801,
+      "text": "goes on under the hood and exactly"
+    },
+    {
+      "start": 20.24,
+      "duration": 1.4300000000000033,
+      "text": "goes on under the hood and exactly sort of how that works on an intuitive"
+    },
+    {
+      "start": 21.67,
+      "duration": 0.00999999999999801,
+      "text": "sort of how that works on an intuitive"
+    },
+    {
+      "start": 21.68,
+      "duration": 0.9499999999999993,
+      "text": "sort of how that works on an intuitive level"
+    },
+    {
+      "start": 22.63,
+      "duration": 0.010000000000001563,
+      "text": "level"
+    },
+    {
+      "start": 22.64,
+      "duration": 1.509999999999998,
+      "text": "level now specifically what i would like to do"
+    },
+    {
+      "start": 24.15,
+      "duration": 0.010000000000001563,
+      "text": "now specifically what i would like to do"
+    },
+    {
+      "start": 24.16,
+      "duration": 2.3900000000000006,
+      "text": "now specifically what i would like to do is i would like to take you through"
+    },
+    {
+      "start": 26.55,
+      "duration": 0.00999999999999801,
+      "text": "is i would like to take you through"
+    },
+    {
+      "start": 26.56,
+      "duration": 2.7890000000000015,
+      "text": "is i would like to take you through building of micrograd now micrograd is"
+    },
+    {
+      "start": 29.349,
+      "duration": 0.010000000000001563,
+      "text": "building of micrograd now micrograd is"
+    },
+    {
+      "start": 29.359,
+      "duration": 1.5109999999999992,
+      "text": "building of micrograd now micrograd is this library that i released on github"
+    },
+    {
+      "start": 30.87,
+      "duration": 0.00999999999999801,
+      "text": "this library that i released on github"
+    },
+    {
+      "start": 30.88,
+      "duration": 1.9899999999999984,
+      "text": "this library that i released on github about two years ago but at the time i"
+    },
+    {
+      "start": 32.87,
+      "duration": 0.010000000000005116,
+      "text": "about two years ago but at the time i"
+    },
+    {
+      "start": 32.88,
+      "duration": 1.9899999999999949,
+      "text": "about two years ago but at the time i only uploaded the source code and you'd"
+    },
+    {
+      "start": 34.87,
+      "duration": 0.010000000000005116,
+      "text": "only uploaded the source code and you'd"
+    },
+    {
+      "start": 34.88,
+      "duration": 2.3900000000000006,
+      "text": "only uploaded the source code and you'd have to go in by yourself and really"
+    },
+    {
+      "start": 37.27,
+      "duration": 0.00999999999999801,
+      "text": "have to go in by yourself and really"
+    },
+    {
+      "start": 37.28,
+      "duration": 1.990000000000002,
+      "text": "have to go in by yourself and really figure out how it works"
+    },
+    {
+      "start": 39.27,
+      "duration": 0.00999999999999801,
+      "text": "figure out how it works"
+    },
+    {
+      "start": 39.28,
+      "duration": 1.3500000000000014,
+      "text": "figure out how it works so in this lecture i will take you"
+    },
+    {
+      "start": 40.63,
+      "duration": 0.00999999999999801,
+      "text": "so in this lecture i will take you"
+    },
+    {
+      "start": 40.64,
+      "duration": 1.7490000000000023,
+      "text": "so in this lecture i will take you through it step by step and kind of"
+    },
+    {
+      "start": 42.389,
+      "duration": 0.00999999999999801,
+      "text": "through it step by step and kind of"
+    },
+    {
+      "start": 42.399,
+      "duration": 1.990000000000002,
+      "text": "through it step by step and kind of comment on all the pieces of it so what"
+    },
+    {
+      "start": 44.389,
+      "duration": 0.00999999999999801,
+      "text": "comment on all the pieces of it so what"
+    },
+    {
+      "start": 44.399,
+      "duration": 3.030999999999999,
+      "text": "comment on all the pieces of it so what is micrograd and why is it interesting"
+    },
+    {
+      "start": 47.43,
+      "duration": 0.00999999999999801,
+      "text": "is micrograd and why is it interesting"
+    },
+    {
+      "start": 47.44,
+      "duration": 1.5100000000000051,
+      "text": "is micrograd and why is it interesting good"
+    },
+    {
+      "start": 48.95,
+      "duration": 0.00999999999999801,
+      "text": "good"
+    },
+    {
+      "start": 48.96,
+      "duration": 0.8699999999999974,
+      "text": "good um"
+    },
+    {
+      "start": 49.83,
+      "duration": 0.010000000000005116,
+      "text": "um"
+    },
+    {
+      "start": 49.84,
+      "duration": 1.6699999999999946,
+      "text": "um micrograd is basically an autograd"
+    },
+    {
+      "start": 201.35,
+      "duration": 0.010000000000019327,
+      "text": "and what backpropagation is going to do"
+    },
+    {
+      "start": 201.36,
+      "duration": 1.829999999999984,
+      "text": "and what backpropagation is going to do is it's going to start at g and it's"
+    },
+    {
+      "start": 203.19,
+      "duration": 0.009999999999990905,
+      "text": "is it's going to start at g and it's"
+    },
+    {
+      "start": 203.2,
+      "duration": 1.990000000000009,
+      "text": "is it's going to start at g and it's going to go backwards through that"
+    },
+    {
+      "start": 205.19,
+      "duration": 0.009999999999990905,
+      "text": "going to go backwards through that"
+    },
+    {
+      "start": 205.2,
+      "duration": 1.5100000000000193,
+      "text": "going to go backwards through that expression graph and it's going to"
+    },
+    {
+      "start": 206.71,
+      "duration": 0.009999999999990905,
+      "text": "expression graph and it's going to"
+    },
+    {
+      "start": 206.72,
+      "duration": 2.0689999999999884,
+      "text": "expression graph and it's going to recursively apply the chain rule from"
+    },
+    {
+      "start": 208.789,
+      "duration": 0.010000000000019327,
+      "text": "recursively apply the chain rule from"
+    },
+    {
+      "start": 208.799,
+      "duration": 1.2709999999999866,
+      "text": "recursively apply the chain rule from calculus"
+    },
+    {
+      "start": 210.07,
+      "duration": 0.010000000000019327,
+      "text": "calculus"
+    },
+    {
+      "start": 210.08,
+      "duration": 2.149000000000001,
+      "text": "calculus and what that allows us to do then is"
+    },
+    {
+      "start": 212.229,
+      "duration": 0.009999999999990905,
+      "text": "and what that allows us to do then is"
+    },
+    {
+      "start": 212.239,
+      "duration": 1.990000000000009,
+      "text": "and what that allows us to do then is we're going to evaluate basically the"
+    },
+    {
+      "start": 214.229,
+      "duration": 0.009999999999990905,
+      "text": "we're going to evaluate basically the"
+    },
+    {
+      "start": 214.239,
+      "duration": 2.311000000000007,
+      "text": "we're going to evaluate basically the derivative of g with respect to all the"
+    },
+    {
+      "start": 216.55,
+      "duration": 0.009999999999990905,
+      "text": "derivative of g with respect to all the"
+    },
+    {
+      "start": 216.56,
+      "duration": 1.5889999999999986,
+      "text": "derivative of g with respect to all the internal nodes"
+    },
+    {
+      "start": 218.149,
+      "duration": 0.009999999999990905,
+      "text": "internal nodes"
+    },
+    {
+      "start": 218.159,
+      "duration": 2.7900000000000205,
+      "text": "internal nodes like e d and c but also with respect to"
+    },
+    {
+      "start": 220.949,
+      "duration": 0.009999999999990905,
+      "text": "like e d and c but also with respect to"
+    },
+    {
+      "start": 220.959,
+      "duration": 2.2309999999999945,
+      "text": "like e d and c but also with respect to the inputs a and b"
+    },
+    {
+      "start": 223.19,
+      "duration": 0.009999999999990905,
+      "text": "the inputs a and b"
+    },
+    {
+      "start": 223.2,
+      "duration": 2.1500000000000057,
+      "text": "the inputs a and b and then we can actually query this"
+    },
+    {
+      "start": 225.35,
+      "duration": 0.010000000000019327,
+      "text": "and then we can actually query this"
+    },
+    {
+      "start": 225.36,
+      "duration": 2.549999999999983,
+      "text": "and then we can actually query this derivative of g with respect to a for"
+    },
+    {
+      "start": 227.91,
+      "duration": 0.009999999999990905,
+      "text": "derivative of g with respect to a for"
+    },
+    {
+      "start": 227.92,
+      "duration": 2.2290000000000134,
+      "text": "derivative of g with respect to a for example that's a dot grad in this case"
+    },
+    {
+      "start": 230.149,
+      "duration": 0.009999999999990905,
+      "text": "example that's a dot grad in this case"
+    },
+    {
+      "start": 230.159,
+      "duration": 2.311000000000007,
+      "text": "example that's a dot grad in this case it happens to be 138 and the derivative"
+    },
+    {
+      "start": 232.47,
+      "duration": 0.009999999999990905,
+      "text": "it happens to be 138 and the derivative"
+    },
+    {
+      "start": 232.48,
+      "duration": 1.7490000000000236,
+      "text": "it happens to be 138 and the derivative of g with respect to b"
+    },
+    {
+      "start": 234.229,
+      "duration": 0.009999999999990905,
+      "text": "of g with respect to b"
+    },
+    {
+      "start": 234.239,
+      "duration": 3.1899999999999977,
+      "text": "of g with respect to b which also happens to be here 645"
+    },
+    {
+      "start": 237.429,
+      "duration": 0.009999999999990905,
+      "text": "which also happens to be here 645"
+    },
+    {
+      "start": 237.439,
+      "duration": 1.990000000000009,
+      "text": "which also happens to be here 645 and this derivative we'll see soon is"
+    },
+    {
+      "start": 239.429,
+      "duration": 0.009999999999990905,
+      "text": "and this derivative we'll see soon is"
+    },
+    {
+      "start": 239.439,
+      "duration": 1.9110000000000014,
+      "text": "and this derivative we'll see soon is very important information because it's"
+    },
+    {
+      "start": 241.35,
+      "duration": 0.010000000000019327,
+      "text": "very important information because it's"
+    },
+    {
+      "start": 241.36,
+      "duration": 3.508999999999986,
+      "text": "very important information because it's telling us how a and b are affecting g"
+    },
+    {
+      "start": 244.869,
+      "duration": 0.009999999999990905,
+      "text": "telling us how a and b are affecting g"
+    },
+    {
+      "start": 244.879,
+      "duration": 1.990000000000009,
+      "text": "telling us how a and b are affecting g through this mathematical expression so"
+    },
+    {
+      "start": 246.869,
+      "duration": 0.009999999999990905,
+      "text": "through this mathematical expression so"
+    },
+    {
+      "start": 246.879,
+      "duration": 1.1910000000000025,
+      "text": "through this mathematical expression so in particular"
+    },
+    {
+      "start": 248.07,
+      "duration": 0.010000000000019327,
+      "text": "in particular"
+    },
+    {
+      "start": 248.08,
+      "duration": 3.75,
+      "text": "in particular a dot grad is 138 so if we slightly"
+    }
+  ],
+  "note": "snippet for mcp eval suite"
+}
