@@ -6,38 +6,40 @@ Automated checks that a **correctly connected** agent’s tool use matches the u
 
 | Layer | File | What it proves |
 |-------|------|----------------|
-| Agent policy | `src/eval/agentPolicy.ts` + `tests/mcp-suite/tutor-scenarios.test.ts` | Utterance → expected tools (`set_position`+`get_context`, `find_concept`, …) |
-| Grounded tool path | `src/eval/runScenario.ts` + scenarios | Running those tools returns segments/hits that match the asked time or concept |
-| Fixtures | `tests/fixtures/sample-transcript.json`, `karpathy-micrograd-snippet.json` | Offline, no YouTube |
+| Agent policy | `src/eval/agentPolicy.ts` + `tests/mcp-suite/tutor-scenarios.test.ts` | Utterance → expected tools |
+| Grounded tool path | `src/eval/runScenario.ts` + scenarios | Tools return the right transcript window/hits |
+| **mcp-use agent loop** | `scripts/run-agent-eval.ts` | Real `MCPAgent` → `MCPClient` → `http://localhost:PORT/mcp` tool traces |
 
-## Run
+## Deterministic suite
 
 ```bash
-npm test -- tests/mcp-suite
-# or
 npm run test:mcp-suite
 ```
 
-## Adding a scenario
+## Live mcp-use + OpenAI agent loop
 
-Edit `tests/mcp-suite/scenarios.ts`:
-
-```ts
-{
-  id: "my-case",
-  user: "I'm at 3:34 — what does he mean by derivative?",
-  transcriptFixture: "karpathy-micrograd-snippet.json",
-  videoAlreadyLoaded: true,
-  expectTools: ["set_position", "get_context"],
-  expectContext: {
-    timestamp: "3:34",
-    textMatches: /derivative/i,
-    padSec: 45,
-  },
-}
+```bash
+cp .env.example .env   # set OPENAI_API_KEY
+npm run test:agent
 ```
 
-## Not covered yet (follow-ups)
+Flow:
+1. Seed Karpathy fixture into a temp cache
+2. `createTutorServer().listen(port)` (mcp-use)
+3. `MCPClient` connects to `http://localhost:PORT/mcp`
+4. `MCPAgent` runs cases; assert `toolsUsedNames`
 
-- Full LLM agent loop (mcp-use `MCPAgent` + API key) asserting live tool traces
-- Wire-protocol MCP server tests once Task 7 registers real tools on `index.ts`
+**Windows note:** use `localhost`, not `127.0.0.1` — mcp-use binds IPv6 `::1`.
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `OPENAI_API_KEY` | yes | OpenAI key for MCPAgent |
+| `OPENAI_MODEL` | no | Default `gpt-4o-mini` |
+| `ANTHROPIC_API_KEY` | no | Reserved for Anthropic later |
+
+## Inspector (mcp-use)
+
+```bash
+npm run dev
+# http://localhost:3000/inspector
+```

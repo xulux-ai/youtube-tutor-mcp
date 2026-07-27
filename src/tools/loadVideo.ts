@@ -1,6 +1,6 @@
 import { fetchAndCacheTranscript, type RunYtDlp } from "../transcript/fetcher.js";
 import { setActiveVideo } from "../session.js";
-import { CACHE_ROOT, DEFAULT_SESSION_PATH } from "../constants.js";
+import { getCacheRoot, getDefaultSessionPath } from "../constants.js";
 
 function buildPreview(texts: string[], maxChars = 280): string {
   const joined = texts.map((t) => t.trim()).filter(Boolean).join(" ");
@@ -24,8 +24,8 @@ export async function loadVideoHandler(input: {
   preview: string;
   transparencyNote: string;
 }> {
-  const cacheRoot = input.cacheRoot ?? CACHE_ROOT;
-  const sessionPath = input.sessionPath ?? DEFAULT_SESSION_PATH;
+  const cacheRoot = input.cacheRoot ?? getCacheRoot();
+  const sessionPath = input.sessionPath ?? getDefaultSessionPath();
 
   const { doc, fromCache, transparencyNote } = await fetchAndCacheTranscript({
     input: input.url,

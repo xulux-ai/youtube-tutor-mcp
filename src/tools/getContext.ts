@@ -2,7 +2,7 @@ import { loadSession } from "../session.js";
 import { loadTranscript } from "../cache.js";
 import { getContextWindow } from "../transcript/context.js";
 import { formatTimestamp, parseTimestamp } from "../time.js";
-import { CACHE_ROOT, DEFAULT_SESSION_PATH } from "../constants.js";
+import { getCacheRoot, getDefaultSessionPath } from "../constants.js";
 import type { Segment } from "../types.js";
 
 export async function getContextHandler(input: {
@@ -18,8 +18,8 @@ export async function getContextHandler(input: {
   endSec: number;
   segments: Segment[];
 }> {
-  const cacheRoot = input.cacheRoot ?? CACHE_ROOT;
-  const sessionPath = input.sessionPath ?? DEFAULT_SESSION_PATH;
+  const cacheRoot = input.cacheRoot ?? getCacheRoot();
+  const sessionPath = input.sessionPath ?? getDefaultSessionPath();
   const session = await loadSession(sessionPath);
 
   if (!session.activeVideoId) {

@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { CACHE_ROOT } from "./constants.js";
+import { getCacheRoot } from "./constants.js";
 import type { TranscriptDoc } from "./types.js";
 
 function transcriptsDir(rootDir: string): string {
@@ -13,7 +13,7 @@ function transcriptPath(videoId: string, rootDir: string): string {
 
 export async function saveTranscript(
   doc: TranscriptDoc,
-  rootDir: string = CACHE_ROOT,
+  rootDir: string = getCacheRoot(),
 ): Promise<string> {
   const dir = transcriptsDir(rootDir);
   await fs.mkdir(dir, { recursive: true });
@@ -24,7 +24,7 @@ export async function saveTranscript(
 
 export async function loadTranscript(
   videoId: string,
-  rootDir: string = CACHE_ROOT,
+  rootDir: string = getCacheRoot(),
 ): Promise<TranscriptDoc | null> {
   const filePath = transcriptPath(videoId, rootDir);
   try {
@@ -40,7 +40,7 @@ export async function loadTranscript(
 
 export async function transcriptExists(
   videoId: string,
-  rootDir: string = CACHE_ROOT,
+  rootDir: string = getCacheRoot(),
 ): Promise<boolean> {
   const doc = await loadTranscript(videoId, rootDir);
   return doc !== null;

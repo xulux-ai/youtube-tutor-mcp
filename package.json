@@ -10,19 +10,29 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:mcp-suite": "vitest run tests/mcp-suite",
+    "test:agent": "tsx scripts/run-agent-eval.ts",
     "test:live": "cross-env LIVE_YOUTUBE=1 vitest run tests/fetcher.live.test.ts",
     "live-check": "tsx scripts/live-transcript-check.ts",
     "tutor-smoke": "tsx scripts/tutor-smoke.ts"
   },
   "dependencies": {
+    "@langchain/core": "^1.2.3",
+    "@langchain/openai": "^1.5.5",
+    "dotenv": "^17.4.2",
+    "langchain": "^1.5.4",
     "mcp-use": "latest",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "zod": "^4.0.0"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^22.0.0",
+    "@vitejs/plugin-react": "^4.7.0",
     "cross-env": "^7.0.3",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0",
+    "vite": "^6.4.3",
     "vitest": "^3.0.0"
   }
 }

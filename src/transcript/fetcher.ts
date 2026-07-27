@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { CACHE_ROOT, TRANSPARENCY_NOTE } from "../constants.js";
+import { getCacheRoot, TRANSPARENCY_NOTE } from "../constants.js";
 import { loadTranscript, saveTranscript, transcriptExists } from "../cache.js";
 import type { TranscriptDoc } from "../types.js";
 import { parseVideoId } from "../videoId.js";
@@ -151,7 +151,7 @@ export async function fetchAndCacheTranscript(opts: {
   transparencyNote: string;
 }> {
   const language = opts.language ?? "en";
-  const cacheRoot = opts.cacheRoot ?? CACHE_ROOT;
+  const cacheRoot = opts.cacheRoot ?? getCacheRoot();
   const runYtDlp = opts.runYtDlp ?? defaultRunYtDlp;
   const videoId = parseVideoId(opts.input);
 

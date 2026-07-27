@@ -1,6 +1,6 @@
 import { setPosition } from "../session.js";
 import { formatTimestamp, parseTimestamp } from "../time.js";
-import { DEFAULT_SESSION_PATH } from "../constants.js";
+import { getDefaultSessionPath } from "../constants.js";
 
 export async function setPositionHandler(input: {
   timestamp: string | number;
@@ -10,7 +10,7 @@ export async function setPositionHandler(input: {
   positionSec: number;
   positionLabel: string;
 }> {
-  const sessionPath = input.sessionPath ?? DEFAULT_SESSION_PATH;
+  const sessionPath = input.sessionPath ?? getDefaultSessionPath();
   const positionSec = parseTimestamp(input.timestamp);
   const state = await setPosition(positionSec, sessionPath);
 

@@ -1,7 +1,7 @@
 import { loadSession } from "../session.js";
 import { loadTranscript } from "../cache.js";
 import { findConcept, type ConceptHit } from "../transcript/search.js";
-import { CACHE_ROOT, DEFAULT_SESSION_PATH } from "../constants.js";
+import { getCacheRoot, getDefaultSessionPath } from "../constants.js";
 
 export async function findConceptHandler(input: {
   query: string;
@@ -13,8 +13,8 @@ export async function findConceptHandler(input: {
   query: string;
   hits: ConceptHit[];
 }> {
-  const cacheRoot = input.cacheRoot ?? CACHE_ROOT;
-  const sessionPath = input.sessionPath ?? DEFAULT_SESSION_PATH;
+  const cacheRoot = input.cacheRoot ?? getCacheRoot();
+  const sessionPath = input.sessionPath ?? getDefaultSessionPath();
   const session = await loadSession(sessionPath);
 
   if (!session.activeVideoId) {

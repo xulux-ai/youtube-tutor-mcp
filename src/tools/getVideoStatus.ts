@@ -1,7 +1,7 @@
 import { loadSession } from "../session.js";
 import { loadTranscript, transcriptExists } from "../cache.js";
 import { formatTimestamp } from "../time.js";
-import { CACHE_ROOT, DEFAULT_SESSION_PATH } from "../constants.js";
+import { getCacheRoot, getDefaultSessionPath } from "../constants.js";
 
 export async function getVideoStatusHandler(input: {
   cacheRoot?: string;
@@ -15,8 +15,8 @@ export async function getVideoStatusHandler(input: {
   title: string | null;
   segmentCount: number | null;
 }> {
-  const cacheRoot = input.cacheRoot ?? CACHE_ROOT;
-  const sessionPath = input.sessionPath ?? DEFAULT_SESSION_PATH;
+  const cacheRoot = input.cacheRoot ?? getCacheRoot();
+  const sessionPath = input.sessionPath ?? getDefaultSessionPath();
   const session = await loadSession(sessionPath);
 
   if (!session.activeVideoId) {
