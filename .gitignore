@@ -1,4 +1,5 @@
 .cache/
+.mcp-use/
 node_modules/
 dist/
 .env
