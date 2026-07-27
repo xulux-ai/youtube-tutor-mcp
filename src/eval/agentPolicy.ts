@@ -5,15 +5,15 @@
  */
 
 export type ExpectedTool =
-  | { name: "load_video"; args?: Record<string, unknown> }
-  | { name: "set_position"; args: { timestamp: string } }
-  | { name: "get_context"; args?: { timestamp?: string } }
-  | { name: "ask_at_position"; args: { question: string; timestamp?: string } }
-  | { name: "find_concept"; args: { query: string } }
-  | { name: "get_video_status"; args?: Record<string, unknown> };
+  | { name: "load-video"; args?: Record<string, unknown> }
+  | { name: "set-position"; args: { timestamp: string } }
+  | { name: "get-context"; args?: { timestamp?: string } }
+  | { name: "ask-at-position"; args: { question: string; timestamp?: string } }
+  | { name: "find-concept"; args: { query: string } }
+  | { name: "get-video-status"; args?: Record<string, unknown> };
 
 export type AgentPlan = {
-  /** Tools the agent should call, in order (after optional load_video). */
+  /** Tools the agent should call, in order (after optional load-video). */
   tools: ExpectedTool[];
   /** True if the utterance implies a video must already be loaded or loaded first. */
   requiresVideo: boolean;
@@ -44,7 +44,7 @@ export function planToolsForUtterance(
   const bareId = text.match(/\b([a-zA-Z0-9_-]{11})\b/);
   if (urlMatch || (!videoAlreadyLoaded && /load|watch|video/i.test(text) && bareId)) {
     tools.push({
-      name: "load_video",
+      name: "load-video",
       args: urlMatch
         ? { url: urlMatch[0] }
         : bareId
@@ -55,24 +55,24 @@ export function planToolsForUtterance(
 
   const pos = text.match(POSITION_RE);
   if (pos?.[1]) {
-    tools.push({ name: "set_position", args: { timestamp: pos[1] } });
+    tools.push({ name: "set-position", args: { timestamp: pos[1] } });
     // Positioned questions should pull grounded context
     if (/\?|what|mean|explain|why|how/i.test(text)) {
-      tools.push({ name: "get_context" });
+      tools.push({ name: "get-context" });
     }
   }
 
   const concept = text.match(CONCEPT_CAPTURE_RE);
   if (concept?.[1] && !pos) {
     tools.push({
-      name: "find_concept",
+      name: "find-concept",
       args: { query: concept[1].trim() },
     });
   } else if (CONFUSED_RE.test(text) && !pos && !concept) {
     // Fallback: treat quoted term or last noun-ish phrase as query later in evals
     const quoted = text.match(/["“]([^"”]+)["”]/);
     if (quoted?.[1]) {
-      tools.push({ name: "find_concept", args: { query: quoted[1].trim() } });
+      tools.push({ name: "find-concept", args: { query: quoted[1].trim() } });
     }
   }
 

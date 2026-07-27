@@ -93,8 +93,8 @@ async function main(): Promise<void> {
   const systemPrompt = `You are a YouTube lecture tutor connected to the youtube-tutor MCP server.
 The active video is already loaded (${doc.videoId}).
 You MUST use MCP tools before answering:
-- Timestamp questions ("I'm at 3:34"): call set_position then get_context (or ask_at_position).
-- Concept confusion: call find_concept.
+- Timestamp questions ("I'm at 3:34"): call set-position then get-context (or ask-at-position).
+- Concept confusion: call find-concept.
 Never invent transcript quotes. Always cite timestamps from tool results. Keep answers short.`;
 
   const cases: Array<{
@@ -106,13 +106,13 @@ Never invent transcript quotes. Always cite timestamps from tool results. Keep a
       id: "timestamp-derivative",
       prompt:
         "I'm at 3:34 — what does he mean by derivative here? Use MCP tools. Keep the answer short.",
-      expectTools: ["set_position", "get_context"],
+      expectTools: ["set-position", "get-context"],
     },
     {
       id: "concept-derivative",
       prompt:
-        'I\'m confused about the concept of "derivative". Use MCP find_concept and point me to a timestamp. Keep it short.',
-      expectTools: ["find_concept"],
+        'I\'m confused about the concept of "derivative". Use MCP find-concept and point me to a timestamp. Keep it short.',
+      expectTools: ["find-concept"],
     },
   ];
 
@@ -156,9 +156,9 @@ Never invent transcript quotes. Always cite timestamps from tool results. Keep a
       let message = check.message;
       if (
         !ok &&
-        c.expectTools.includes("get_context") &&
-        used.includes("set_position") &&
-        (used.includes("ask_at_position") || used.includes("get_context"))
+        c.expectTools.includes("get-context") &&
+        used.includes("set-position") &&
+        (used.includes("ask-at-position") || used.includes("get-context"))
       ) {
         ok = true;
         message = `accepted tool variant: ${used.join(" → ")}`;

@@ -10,29 +10,29 @@ import {
 import { offlineScenarios } from "./scenarios.js";
 
 describe("MCP tutor suite — agent policy", () => {
-  it("maps sticky-position questions to set_position + get_context", () => {
+  it("maps sticky-position questions to set-position + get-context", () => {
     const plan = planToolsForUtterance(
       "I'm at 12:34, what does he mean by attention?",
       { videoAlreadyLoaded: true },
     );
     const names = plan.tools.map((t) => t.name);
     const check = assertToolTraceContains(names, [
-      "set_position",
-      "get_context",
+      "set-position",
+      "get-context",
     ]);
     expect(check.ok, check.message).toBe(true);
   });
 
-  it("maps concept confusion to find_concept", () => {
+  it("maps concept confusion to find-concept", () => {
     const plan = planToolsForUtterance(
       'I\'m confused about the concept of "backprop"',
       { videoAlreadyLoaded: true },
     );
     const names = plan.tools.map((t) => t.name);
-    const check = assertToolTraceContains(names, ["find_concept"]);
+    const check = assertToolTraceContains(names, ["find-concept"]);
     expect(check.ok, check.message).toBe(true);
     expect(plan.tools[0]).toMatchObject({
-      name: "find_concept",
+      name: "find-concept",
       args: { query: "backprop" },
     });
   });
@@ -44,9 +44,9 @@ describe("MCP tutor suite — agent policy", () => {
     );
     const names = plan.tools.map((t) => t.name);
     const check = assertToolTraceContains(names, [
-      "load_video",
-      "set_position",
-      "get_context",
+      "load-video",
+      "set-position",
+      "get-context",
     ]);
     expect(check.ok, check.message).toBe(true);
   });

@@ -130,7 +130,7 @@ export async function runTutorScenario(
       matched: matched.slice(0, 3),
     };
 
-    // Also exercise ask_at_position for positioned questions
+    // Also exercise ask-at-position for positioned questions
     const asked = await askAtPositionHandler({
       question: scenario.user,
       cacheRoot: opts.cacheRoot,
@@ -138,7 +138,7 @@ export async function runTutorScenario(
     });
     if (!asked.segments.some((s) => scenario.expectContext!.textMatches.test(s.text))) {
       groundingOk = false;
-      groundingMessage += "; ask_at_position also missed match";
+      groundingMessage += "; ask-at-position also missed match";
     }
   }
 
@@ -162,8 +162,8 @@ export async function runTutorScenario(
     });
     groundingOk = matched.length > 0;
     groundingMessage = groundingOk
-      ? `find_concept hit ${matched[0]?.timestamp}: "${matched[0]?.quote.slice(0, 80)}"`
-      : `find_concept missed expected grounding for "${scenario.expectConcept.query}"`;
+      ? `find-concept hit ${matched[0]?.timestamp}: "${matched[0]?.quote.slice(0, 80)}"`
+      : `find-concept missed expected grounding for "${scenario.expectConcept.query}"`;
     evidence = { hits: found.hits.slice(0, 5), matched: matched.slice(0, 3) };
   }
 

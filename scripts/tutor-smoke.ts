@@ -22,7 +22,7 @@ async function main(): Promise<void> {
   console.log("loading", input);
 
   const loaded = await loadVideoHandler({ url: input, cacheRoot, sessionPath });
-  console.log("\n=== load_video ===");
+  console.log("\n=== load-video ===");
   console.log({
     videoId: loaded.videoId,
     title: loaded.title,
@@ -37,7 +37,7 @@ async function main(): Promise<void> {
     timestamp: "0:01",
     sessionPath,
   });
-  console.log("\n=== set_position 0:01 ===");
+  console.log("\n=== set-position 0:01 ===");
   console.log(position);
 
   const ctx = await getContextHandler({
@@ -45,7 +45,7 @@ async function main(): Promise<void> {
     cacheRoot,
     sessionPath,
   });
-  console.log("\n=== get_context (±45s) ===");
+  console.log("\n=== get-context (±45s) ===");
   console.log({
     positionLabel: ctx.positionLabel,
     startSec: ctx.startSec,
@@ -63,7 +63,7 @@ async function main(): Promise<void> {
     cacheRoot,
     sessionPath,
   });
-  console.log("\n=== find_concept 'derivative' ===");
+  console.log("\n=== find-concept 'derivative' ===");
   console.log(
     hits.hits.map((h) => ({
       timestamp: h.timestamp,
@@ -73,7 +73,7 @@ async function main(): Promise<void> {
   );
 
   const status = await getVideoStatusHandler({ cacheRoot, sessionPath });
-  console.log("\n=== get_video_status ===");
+  console.log("\n=== get-video-status ===");
   console.log(status);
 
   console.log("\nCached file:", path.join(cacheRoot, "transcripts", `${loaded.videoId}.json`));

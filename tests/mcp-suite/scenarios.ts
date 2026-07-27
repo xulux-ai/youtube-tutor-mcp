@@ -7,7 +7,7 @@ export const offlineScenarios: TutorScenario[] = [
     user: "I'm at 12:34 — what does he mean by attention?",
     transcriptFixture: "sample-transcript.json",
     videoAlreadyLoaded: true,
-    expectTools: ["set_position", "get_context"],
+    expectTools: ["set-position", "get-context"],
     expectContext: {
       timestamp: "12:34",
       textMatches: /attention/i,
@@ -19,7 +19,7 @@ export const offlineScenarios: TutorScenario[] = [
     user: 'I\'m confused about the concept of "attention"',
     transcriptFixture: "sample-transcript.json",
     videoAlreadyLoaded: true,
-    expectTools: ["find_concept"],
+    expectTools: ["find-concept"],
     expectConcept: {
       query: "attention",
       textMatches: /attention/i,
@@ -31,7 +31,7 @@ export const offlineScenarios: TutorScenario[] = [
     user: "I'm at 0:01 — what is he introducing?",
     transcriptFixture: "karpathy-micrograd-snippet.json",
     videoAlreadyLoaded: true,
-    expectTools: ["set_position", "get_context"],
+    expectTools: ["set-position", "get-context"],
     expectContext: {
       timestamp: "0:01",
       textMatches: /hello my name is andre/i,
@@ -43,7 +43,7 @@ export const offlineScenarios: TutorScenario[] = [
     user: "I'm confused about the concept of derivative",
     transcriptFixture: "karpathy-micrograd-snippet.json",
     videoAlreadyLoaded: true,
-    expectTools: ["find_concept"],
+    expectTools: ["find-concept"],
     expectConcept: {
       query: "derivative",
       textMatches: /derivative/i,
@@ -56,7 +56,7 @@ export const offlineScenarios: TutorScenario[] = [
     user: "I'm at 3:34 — what does he mean by derivative here?",
     transcriptFixture: "karpathy-micrograd-snippet.json",
     videoAlreadyLoaded: true,
-    expectTools: ["set_position", "get_context"],
+    expectTools: ["set-position", "get-context"],
     expectContext: {
       timestamp: "3:34",
       textMatches: /derivative/i,
